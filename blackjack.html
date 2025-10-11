@@ -103,6 +103,17 @@
       font-size: 18px;
       margin-bottom: 10px;
     }
+
+    footer {
+      margin-top: 60px;
+      font-size: 16px;
+      color: #888;
+    }
+
+    footer span {
+      color: #ff4da6;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -141,145 +152,144 @@
     <div id="message"></div>
   </div>
 
+  <footer>
+  </footer>
+
   <script>
-  let deck = [];
-  let playerHand = [];
-  let dealerHand = [];
-  let score = 100;
-  let bet = 0;
-  let gameOver = false;
-  let roundStarted = false;
+    let deck = [];
+    let playerHand = [];
+    let dealerHand = [];
+    let score = 100;
+    let bet = 0;
+    let gameOver = false;
+    let roundStarted = false;
 
-  function startGame() {
-    if (roundStarted || score === 0) return;
-    roundStarted = true;
-    document.getElementById("gameArea").style.display = "block";
-    document.getElementById("playButton").style.display = "none";
-    resetDeck();
-    playerHand = [drawCard(), drawCard()];
-    dealerHand = [drawCard(), drawCard()];
-    gameOver = false;
-    document.getElementById("hitBtn").disabled = false;
-    document.getElementById("message").innerText = "";
-    updateDisplay();
-  }
-
-  function resetDeck() {
-    deck = [];
-    const suits = ['♠', '♥', '♦', '♣'];
-    for (let i = 2; i <= 10; i++) {
-      suits.forEach(s => deck.push({ value: i, label: i + s }));
-    }
-    ['J', 'Q', 'K'].forEach(face => {
-      suits.forEach(s => deck.push({ value: 10, label: face + s }));
-    });
-    suits.forEach(s => deck.push({ value: 11, label: 'A' + s }));
-    deck = deck.sort(() => Math.random() - 0.5);
-  }
-
-  function drawCard() {
-    return deck.pop();
-  }
-
-  function updateDisplay() {
-    document.getElementById("playerCards").innerHTML = playerHand.map(c => `<div class="card">${c.label}</div>`).join('');
-
-    let dealerHTML = '';
-    if (!gameOver) {
-      dealerHTML += `<div class="card">${dealerHand[0].label}</div>`;
-      dealerHTML += `<div class="card">🂠</div>`;
-    } else {
-      dealerHTML = dealerHand.map(c => `<div class="card">${c.label}</div>`).join('');
-    }
-    document.getElementById("dealerCards").innerHTML = dealerHTML;
-
-    document.getElementById("score").innerText = `Score: $${score}`;
-    document.getElementById("betDisplay").innerText = `Current Bet: $${bet}`;
-
-    if ((gameOver && score > 0) || (!roundStarted && bet > 0)) {
-      document.getElementById("playButton").style.display = "inline-block";
-    } else {
+    function startGame() {
+      if (roundStarted || score === 0) return;
+      roundStarted = true;
+      document.getElementById("gameArea").style.display = "block";
       document.getElementById("playButton").style.display = "none";
+      resetDeck();
+      playerHand = [drawCard(), drawCard()];
+      dealerHand = [drawCard(), drawCard()];
+      gameOver = false;
+      document.getElementById("hitBtn").disabled = false;
+      document.getElementById("message").innerText = "";
+      updateDisplay();
     }
 
-    document.getElementById("resetBtn").style.display = score === 0 ? "inline-block" : "none";
-  }
-
-  function getTotal(hand) {
-    let total = hand.reduce((sum, card) => sum + card.value, 0);
-    let aces = hand.filter(c => c.value === 11);
-    while (total > 21 && aces.length) {
-      total -= 10;
-      aces.pop();
+    function resetDeck() {
+      deck = [];
+      const suits = ['♠', '♥', '♦', '♣'];
+      for (let i = 2; i <= 10; i++) {
+        suits.forEach(s => deck.push({ value: i, label: i + s }));
+      }
+      ['J', 'Q', 'K'].forEach(face => {
+        suits.forEach(s => deck.push({ value: 10, label: face + s }));
+      });
+      suits.forEach(s => deck.push({ value: 11, label: 'A' + s }));
+      deck = deck.sort(() => Math.random() - 0.5);
     }
-    return total;
-  }
 
-  function hit() {
-    if (gameOver) return;
-    playerHand.push(drawCard());
-    updateDisplay();
-    let total = getTotal(playerHand);
-    if (total > 21) {
-      document.getElementById("message").innerText = "You busted! You lose.";
-      score -= bet;
+    function drawCard() {
+      return deck.pop();
+    }
+
+    function updateDisplay() {
+      document.getElementById("playerCards").innerHTML = playerHand.map(c => `<div class="card">${c.label}</div>`).join('');
+      let dealerHTML = '';
+      if (!gameOver) {
+        dealerHTML += `<div class="card">${dealerHand[0].label}</div>`;
+        dealerHTML += `<div class="card">🂠</div>`;
+      } else {
+        dealerHTML = dealerHand.map(c => `<div class="card">${c.label}</div>`).join('');
+      }
+      document.getElementById("dealerCards").innerHTML = dealerHTML;
+      document.getElementById("score").innerText = `Score: $${score}`;
+      document.getElementById("betDisplay").innerText = `Current Bet: $${bet}`;
+      document.getElementById("playButton").style.display = (gameOver && score > 0) || (!roundStarted && bet > 0) ? "inline-block" : "none";
+      document.getElementById("resetBtn").style.display = score === 0 ? "inline-block" : "none";
+    }
+
+    function getTotal(hand) {
+      let total = hand.reduce((sum, card) => sum + card.value, 0);
+      let aces = hand.filter(c => c.value === 11);
+      while (total > 21 && aces.length) {
+        total -= 10;
+        aces.pop();
+      }
+      return total;
+    }
+
+    function hit() {
+      if (gameOver) return;
+      playerHand.push(drawCard());
+      updateDisplay();
+      let total = getTotal(playerHand);
+      if (total > 21) {
+        document.getElementById("message").innerText = "You busted! You lose.";
+        score -= bet;
+        bet = 0;
+        gameOver = true;
+        roundStarted = false;
+        document.getElementById("hitBtn").disabled = true;
+        document.getElementById("bustSound").play();
+        updateDisplay();
+      }
+    }
+
+    function stand() {
+      if (gameOver) return;
+      while (getTotal(dealerHand) < 17) {
+        dealerHand.push(drawCard());
+      }
+      let playerTotal = getTotal(playerHand);
+      let dealerTotal = getTotal(dealerHand);
+      if (dealerTotal > 21 || playerTotal > dealerTotal) {
+        document.getElementById("message").innerText = "You win!";
+        score += bet;
+        document.getElementById("winSound").play();
+      } else if (playerTotal < dealerTotal) {
+        document.getElementById("message").innerText = "You lose!";
+        score -= bet;
+        document.getElementById("loseSound").play();
+      } else {
+        document.getElementById("message").innerText = "Push!";
+        document.getElementById("pushSound").play();
+      }
       bet = 0;
       gameOver = true;
-      roundStarted = false; // ✅ Add this line
+      roundStarted = false;
       document.getElementById("hitBtn").disabled = true;
-      document.getElementById("bustSound").play();
       updateDisplay();
     }
-  }
 
-  function stand() {
-    if (gameOver) return;
-    while (getTotal(dealerHand) < 17) {
-     dealerHand.push(drawCard());
-    }
-    let playerTotal = getTotal(playerHand);
-    let dealerTotal = getTotal(dealerHand);
-    if (dealerTotal > 21 || playerTotal > dealerTotal) {
-      document.getElementById("message").innerText = "You win!";
-      score += bet;
-      document.getElementById("winSound").play();
-    } else if (playerTotal < dealerTotal) {
-      document.getElementById("message").innerText = "You lose!";
-      score -= bet;
-      document.getElementById("loseSound").play();
-    } else {
-      document.getElementById("message").innerText = "Push!";
-      document.getElementById("pushSound").play();
-    }
-    bet = 0;
-    gameOver = true;
-    roundStarted = false; // ✅ Add this line
-    document.getElementById("hitBtn").disabled = true;
-    updateDisplay();
-  }
-
-  function resetGame() {
-    if (score !== 0) return;
-    score = 100;
-    playerHand = [];
-    dealerHand = [];
-    bet = 0;
-    roundStarted = false;
-    gameOver = false;
-    document.getElementById("gameArea").style.display = "none";
-    document.getElementById("message").innerText = "";
-    document.getElementById("playButton").style.display = "inline-block";
-    updateDisplay();
-  }
-
-  function placeBet(amount) {
-    if (score >= amount) {
-      bet = amount;
+    function resetGame() {
+      if (score !== 0) return;
+      score = 100;
+      playerHand = [];
+      dealerHand = [];
+      bet = 0;
+      roundStarted = false;
+      gameOver = false;
+      document.getElementById("gameArea").style.display = "none";
+      document.getElementById("message").innerText = "";
+      document.getElementById("playButton").style.display = "inline-block";
       updateDisplay();
-    } else {
-      alert("Not enough funds!");
     }
-  }
-</script>
+
+    function placeBet(amount) {
+      if (score >= amount) {
+        bet = amount;
+        updateDisplay();
+      } else {
+        alert("Not enough funds!");
+      }
+    }
+  </script>
+
+  <footer>
+    Made by <span>MSG</span>
+  </footer>
 </body>
 </html>
