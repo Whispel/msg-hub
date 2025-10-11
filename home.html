@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MSG</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+    }
+
+    body {
+      background-image: url('https://images.unsplash.com/photo-1532298229144-0ec0c57515c7');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+
+    .scroll-container {
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    .overlay {
+      background-color: rgba(20, 0, 40, 0.7);
+      min-height: 100%;
+      display: flex;
+      flex-direction: row;
+      position: relative;
+    }
+
+    .sidebar {
+      width: 100px;
+      padding: 30px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .sidebar a img {
+      width: 40px;
+      height: 40px;
+      transition: transform 0.3s;
+    }
+
+    .sidebar a:hover img {
+      transform: scale(1.2);
+    }
+
+    .live-button {
+      text-decoration: none;
+      font-size: 18px;
+      color: white;
+      background-color: red;
+      padding: 12px;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(255,0,0,0.6);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .live-button:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 15px rgba(255,0,0,0.8);
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 20px 30px;
+    }
+
+    .logo-space {
+      height: 40px;
+      width: 100%;
+    }
+
+    a h1 {
+      font-size: 60px;
+      margin-bottom: 15px;
+      color: #a020f0;
+      font-family: 'Trebuchet MS', sans-serif;
+      letter-spacing: 3px;
+      text-shadow:
+        1px 1px 0 #6a0dad,
+        2px 2px 0 #4b0082,
+        3px 3px 0 #2e0854,
+        4px 4px 0 #1a0033;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    a:hover h1 {
+      text-decoration: underline;
+    }
+
+    .video-box {
+      width: 560px;
+      height: 315px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 2px solid white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .section {
+      margin-top: 20px;
+      text-align: center;
+      max-width: 560px;
+      width: 100%;
+    }
+
+    .section h2 {
+      color: #ffccff;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .tiktok-section {
+      margin-top: 45px;
+    }
+
+    .description {
+      margin-top: 80px;
+      max-width: 560px;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      color: #f0e6ff;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .dancer {
+      position: absolute;
+      bottom: 20px;
+      z-index: 1;
+    }
+
+    .dancer.left {
+      left: 20px;
+    }
+
+    .dancer.right {
+      right: 20px;
+    }
+
+    .dancer img {
+      height: 120px;
+    }
+
+    .games-tab {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .games-tab h3 {
+      color: #FFD700;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .games-tab a {
+      color: #00FF7F;
+      font-weight: bold;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .games-tab a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 700px) {
+      .overlay {
+        flex-direction: column;
+      }
+      .sidebar {
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+        padding: 20px;
+      }
+      .main {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-container">
+    <div class="overlay">
+      <!-- Left dancing girl -->
+      <div class="dancer left">
+        <img src="https://media.tenor.com/2zjKXqkzK9sAAAAC/anime-dance.gif" alt="Dancing Girl Left">
+      </div>
+
+      <!-- Right dancing girl -->
+      <div class="dancer right">
+        <img src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif" alt="Dancing Girl Right">
+      </div>
+
+      <div class="sidebar">
+        <a href="https://www.youtube.com/@msggambles" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+        </a>
+        <a href="https://instagram.com/msgtaken" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
+        </a>
+        <a href="https://kick.com/messageless" target="_blank" class="live-button">📷 LIVE</a>
+        <a href="https://www.tiktok.com/@officialmsgs" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/3046/3046122.png" alt="TikTok">
+        </a>
+        <a href="https://www.twitch.tv/messageful" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/5968/5968819.png" alt="Twitch">
+        </a>
+
+        <!-- Games Made by MSG -->
+        <div class="games-tab">
+          <h3>Games Made by MSG</h3>
+          <a href="crossy-ball.html">Crossy Ball</a>
+          <a href="blackjack.html">Blackjack</a>
+        </div>
+      </div>
+
+      <div class="main">
+        <div class="logo-space"></div>
+        <a href="index.html" style="text-decoration: none;">
+          <h1>MSG</h1>
+        </a>
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/PCWWalpEV9U" allowfullscreen></iframe>
+        </div>
+
+        <div class="section">
+          <h2>My Music:</h2>
+          <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/m-s_g/funny&color=%23ff00ff&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
+          </iframe>
+        </div>
+
+        <div class="section tiktok-section">
+          <h2>TikTok:</h2>
+          <iframe src="https://www.tiktok.com/embed/v2/7558591078111251742" width="100%" height="600" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+        <div class="description">
+          <p>
+            Welcome to MSG — where music, games, and good vibes collide. This space is all about creativity, connection, and keeping it real. Whether you're here for the beats, the livestreams, or just to explore, you're part of the journey. Stay tuned for more drops,
+            Stay tuned for more drops, more energy, and more MSG magic. From custom games like Flappy Ball and Blackjack to live streams and music releases, this site is built to entertain, connect, and evolve. Thanks for being part of the journey — we’re just getting started.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

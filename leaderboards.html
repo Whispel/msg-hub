@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leaderboards</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url('https://images.unsplash.com/photo-1532298229144-0ec0c57515c7');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+
+    .overlay {
+      background-color: rgba(20, 0, 40, 0.8);
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .home-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      text-decoration: none;
+      color: #FFD700;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.3s, transform 0.3s;
+      z-index: 10;
+    }
+
+    .home-button:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+
+    .timer {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #FFD700;
+      font-weight: bold;
+      text-shadow: 1px 1px 0 #333;
+    }
+
+    h1 {
+      font-size: 48px;
+      color: #00FF7F;
+      text-shadow: 2px 2px 0 #006400, 4px 4px 0 #003300;
+      margin-bottom: 20px;
+    }
+
+    .link-bar {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .link-bar a {
+      text-decoration: none;
+      color: #FFD700;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .link-bar a:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+
+    .leaderboard {
+      width: 90%;
+      max-width: 700px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 2px solid white;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .leaderboard ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .leaderboard li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      font-size: 18px;
+    }
+
+    .leaderboard img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .rank {
+      font-weight: bold;
+      width: 30px;
+      text-align: right;
+    }
+
+    .coins {
+      margin-left: auto;
+      font-weight: bold;
+      color: #FFD700;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 36px;
+      }
+      .leaderboard li {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .coins {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="home-button">Home</a>
+  <div class="overlay">
+    <div class="timer" id="countdown">Loading timer...</div>
+    <h1>Leaderboard's</h1>
+    <div class="link-bar">
+      <a href="skinrave.html">Skinrave</a>
+      <a href="chicken.html">Chicken</a>
+      <a href="rain.html">Rain</a>
+      <a href="clash.html">Clash</a>
+    </div>
+    <div class="leaderboard">
+      <ul id="leaderboardList"></ul>
+    </div>
+  </div>
+
+  <script>
+    let startDate = new Date("2025-10-10T00:00:00Z");
+    const oneMonthMs = 30 * 24 * 60 * 60 * 1000;
+
+    function updateCountdown() {
+      const now = new Date();
+      let nextReset = new Date(startDate.getTime());
+
+      while (nextReset < now) {
+        nextReset = new Date(nextReset.getTime() + oneMonthMs);
+      }
+
+      const diff = nextReset - now;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("countdown").textContent =
+        `Next reset in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    async function loadLeaderboard() {
+      const url = "https://api.skinrave.gg/affiliates/public/applicants?token=f519c108-c4b9-4ea7-9a54-da7017c315bd&skip=0&take=10&order=DESC&from=2025-10-03T01:30:14.236Z&to=2025-10-10T01:30:14.236Z";
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        const list = data.list;
+        const leaderboard = document.getElementById("leaderboardList");
+        leaderboard.innerHTML = "";
+
+        list.forEach((entry, index) => {
+          const user = entry.user;
+          let coins = 0;
+          if (index === 0) coins = 500;
+          else if (index === 1) coins = 300;
+          else if (index === 2) coins = 200;
+
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <span class="rank">${index + 1}</span>
+            <img src="${user.avatarUrl}" alt="Avatar">
+            <span>${user.username}</span>
+            <span>Earned: $${parseFloat(entry.earned).toFixed(2)}</span>
+            <span class="coins">${coins} 🪙</span>
+          `;
+          leaderboard.appendChild(li);
+        });
+      } catch (error) {
+        console.error("Failed to load leaderboard:", error);
+      }
+    }
+
+    loadLeaderboard();
+  </script>
+</body>
+</html>

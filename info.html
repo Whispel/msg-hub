@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Site Info</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1a0033, #3a0066);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    header h1 {
+      font-size: 48px;
+      color: #a020f0;
+      text-shadow: 2px 2px 0 #6a0dad, 4px 4px 0 #2e0854;
+      margin: 0;
+    }
+
+    .content {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-left: 5px solid #a020f0;
+      padding: 30px;
+      margin-bottom: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+    }
+
+    .section h2 {
+      color: #FFD700;
+      margin-top: 0;
+    }
+
+    .section p {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .highlight {
+      color: #00FF7F;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    .cta {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: #a020f0;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .cta:hover {
+      background-color: #6a0dad;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Welcome to the Site</h1>
+  </header>
+
+  <div class="content">
+    <div class="section">
+      <h2>💸 Referral Rewards</h2>
+      <p>
+        Share your referral code and unlock <span class="highlight">exclusive benefits</span> for you and your friends. From bonus coins to early access features, it pays to spread the word. The more you refer, the more you earn.
+      </p>
+      <a href="index.html" class="cta">Use Referral Code</a>
+    </div>
+
+    <div class="section">
+      <h2>🚀 What’s Coming</h2>
+      <p>
+        This site is just getting started. We’re building out <span class="highlight">new games</span>, <span class="highlight">interactive leaderboards</span>, and <span class="highlight">modular features</span> that make your experience smoother, smarter, and more rewarding. Big updates are dropping soon — stay tuned.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>🎥 Streams & Giveaways</h2>
+      <p>
+        We’re going live — often. Expect <span class="highlight">weekly streams</span>, surprise drops, and massive giveaways. Whether you’re here to compete, chill, or win big, we’ve got something for you.
+      </p>
+      <p>
+        Follow us on Twitch, TikTok, and YouTube to catch the action and claim your rewards.
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 MSG Gaming. All rights reserved.
+  </footer>
+
+</body>
+</html>

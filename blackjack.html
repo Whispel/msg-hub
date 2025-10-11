@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blackjack</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #1a1a2e;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-top: 30px;
+      color: #00FF7F;
+      text-shadow: 2px 2px 0 #006400;
+    }
+
+    #score {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    #playButton {
+      padding: 12px 24px;
+      font-size: 20px;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+
+    #gameArea {
+      display: none;
+      margin-top: 20px;
+    }
+
+    h2 {
+      font-size: 24px;
+      color: #FFD700;
+      margin-top: 20px;
+      text-shadow: 1px 1px 0 #333;
+    }
+
+    .cards {
+      margin: 10px;
+    }
+
+    .card {
+      display: inline-block;
+      background-color: white;
+      color: black;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 10px;
+      margin: 5px;
+      font-size: 20px;
+      width: 50px;
+    }
+
+    .buttons {
+      margin: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    .chips {
+      margin: 20px;
+    }
+
+    .chip {
+      display: inline-block;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      line-height: 60px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      margin: 10px;
+      font-size: 18px;
+    }
+
+    .red { background-color: red; }
+    .green { background-color: green; }
+    .blue { background-color: blue; }
+    .black { background-color: black; }
+    .gold { background-color: gold; color: black; }
+
+    #message {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+
+    #betDisplay {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Blackjack</h1>
+  <div id="score">Score: $100</div>
+  <button id="playButton" onclick="startGame()">Play Now</button>
+
+  <div id="gameArea">
+    <div id="betDisplay">Current Bet: $0</div>
+
+    <h2>Dealer's Card's</h2>
+    <div class="cards" id="dealerCards"></div>
+
+    <h2>Player's Card's</h2>
+    <div class="cards" id="playerCards"></div>
+
+    <div class="buttons">
+      <button id="hitBtn" onclick="hit()">Hit</button>
+      <button onclick="stand()">Stand</button>
+      <button id="resetBtn" onclick="resetGame()" style="display:none;">Reset</button>
+    </div>
+
+    <div class="chips">
+      <div class="chip red" onclick="placeBet(5)">$5</div>
+      <div class="chip green" onclick="placeBet(25)">$25</div>
+      <div class="chip blue" onclick="placeBet(50)">$50</div>
+      <div class="chip black" onclick="placeBet(100)">$100</div>
+      <div class="chip gold" onclick="placeBet(score)">ALL IN</div>
+    </div>
+
+    <audio id="winSound" src="win.mp3"></audio>
+    <audio id="loseSound" src="lose.mp3"></audio>
+    <audio id="pushSound" src="push.mp3"></audio>
+    <audio id="bustSound" src="bust.mp3"></audio>
+
+    <div id="message"></div>
+  </div>
+
+  <script>
+  let deck = [];
+  let playerHand = [];
+  let dealerHand = [];
+  let score = 100;
+  let bet = 0;
+  let gameOver = false;
+  let roundStarted = false;
+
+  function startGame() {
+    if (roundStarted || score === 0) return;
+    roundStarted = true;
+    document.getElementById("gameArea").style.display = "block";
+    document.getElementById("playButton").style.display = "none";
+    resetDeck();
+    playerHand = [drawCard(), drawCard()];
+    dealerHand = [drawCard(), drawCard()];
+    gameOver = false;
+    document.getElementById("hitBtn").disabled = false;
+    document.getElementById("message").innerText = "";
+    updateDisplay();
+  }
+
+  function resetDeck() {
+    deck = [];
+    const suits = ['♠', '♥', '♦', '♣'];
+    for (let i = 2; i <= 10; i++) {
+      suits.forEach(s => deck.push({ value: i, label: i + s }));
+    }
+    ['J', 'Q', 'K'].forEach(face => {
+      suits.forEach(s => deck.push({ value: 10, label: face + s }));
+    });
+    suits.forEach(s => deck.push({ value: 11, label: 'A' + s }));
+    deck = deck.sort(() => Math.random() - 0.5);
+  }
+
+  function drawCard() {
+    return deck.pop();
+  }
+
+  function updateDisplay() {
+    document.getElementById("playerCards").innerHTML = playerHand.map(c => `<div class="card">${c.label}</div>`).join('');
+
+    let dealerHTML = '';
+    if (!gameOver) {
+      dealerHTML += `<div class="card">${dealerHand[0].label}</div>`;
+      dealerHTML += `<div class="card">🂠</div>`;
+    } else {
+      dealerHTML = dealerHand.map(c => `<div class="card">${c.label}</div>`).join('');
+    }
+    document.getElementById("dealerCards").innerHTML = dealerHTML;
+
+    document.getElementById("score").innerText = `Score: $${score}`;
+    document.getElementById("betDisplay").innerText = `Current Bet: $${bet}`;
+
+    if ((gameOver && score > 0) || (!roundStarted && bet > 0)) {
+      document.getElementById("playButton").style.display = "inline-block";
+    } else {
+      document.getElementById("playButton").style.display = "none";
+    }
+
+    document.getElementById("resetBtn").style.display = score === 0 ? "inline-block" : "none";
+  }
+
+  function getTotal(hand) {
+    let total = hand.reduce((sum, card) => sum + card.value, 0);
+    let aces = hand.filter(c => c.value === 11);
+    while (total > 21 && aces.length) {
+      total -= 10;
+      aces.pop();
+    }
+    return total;
+  }
+
+  function hit() {
+    if (gameOver) return;
+    playerHand.push(drawCard());
+    updateDisplay();
+    let total = getTotal(playerHand);
+    if (total > 21) {
+      document.getElementById("message").innerText = "You busted! You lose.";
+      score -= bet;
+      bet = 0;
+      gameOver = true;
+      roundStarted = false; // ✅ Add this line
+      document.getElementById("hitBtn").disabled = true;
+      document.getElementById("bustSound").play();
+      updateDisplay();
+    }
+  }
+
+  function stand() {
+    if (gameOver) return;
+    while (getTotal(dealerHand) < 17) {
+     dealerHand.push(drawCard());
+    }
+    let playerTotal = getTotal(playerHand);
+    let dealerTotal = getTotal(dealerHand);
+    if (dealerTotal > 21 || playerTotal > dealerTotal) {
+      document.getElementById("message").innerText = "You win!";
+      score += bet;
+      document.getElementById("winSound").play();
+    } else if (playerTotal < dealerTotal) {
+      document.getElementById("message").innerText = "You lose!";
+      score -= bet;
+      document.getElementById("loseSound").play();
+    } else {
+      document.getElementById("message").innerText = "Push!";
+      document.getElementById("pushSound").play();
+    }
+    bet = 0;
+    gameOver = true;
+    roundStarted = false; // ✅ Add this line
+    document.getElementById("hitBtn").disabled = true;
+    updateDisplay();
+  }
+
+  function resetGame() {
+    if (score !== 0) return;
+    score = 100;
+    playerHand = [];
+    dealerHand = [];
+    bet = 0;
+    roundStarted = false;
+    gameOver = false;
+    document.getElementById("gameArea").style.display = "none";
+    document.getElementById("message").innerText = "";
+    document.getElementById("playButton").style.display = "inline-block";
+    updateDisplay();
+  }
+
+  function placeBet(amount) {
+    if (score >= amount) {
+      bet = amount;
+      updateDisplay();
+    } else {
+      alert("Not enough funds!");
+    }
+  }
+</script>
+</body>
+</html>

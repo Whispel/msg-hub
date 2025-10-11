@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crossy Ball Lite</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: sans-serif;
+      background-color: skyblue;
+    }
+    #gameCanvas {
+      display: block;
+      margin: auto;
+      border: 2px solid #333;
+      filter: brightness(1);
+    }
+    #homeScreen, #settingsScreen, #playAgain {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px 40px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    #homeScreen button, #settingsScreen button, #playAgain button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    #settingsScreen input[type="range"] {
+      width: 100%;
+    }
+    #footer {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 16px;
+    }
+    #score {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    #score img {
+      width: 24px;
+      height: 24px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="600" height="600"></canvas>
+
+  <div id="homeScreen">
+    <h1>Crossy Ball Lite</h1>
+    <button onclick="startGame()">Play</button>
+    <button onclick="openSettings()">Settings</button>
+  </div>
+
+  <div id="settingsScreen" style="display:none;">
+    <h2>Settings</h2>
+    <label for="brightness">Brightness: <span id="brightnessValue">100</span>%</label><br>
+    <input type="range" id="brightness" min="0" max="100" value="100" oninput="adjustBrightness(this.value)">
+    <br><br>
+    <button onclick="closeSettings()">Back</button>
+  </div>
+
+  <div id="score" style="display:none;">
+    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Trophy">
+    <span id="scoreText">Score: 0</span>
+    <span id="highScoreText">| High Score: 0</span>
+  </div>
+
+  <div id="playAgain" style="display:none;">
+    <h2>Game Over!</h2>
+    <button onclick="resetGame()">Play Again</button>
+    <button onclick="goHome()">Home</button>
+  </div>
+
+  <div id="footer">Made by MSG</div>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const scoreText = document.getElementById("scoreText");
+    const highScoreText = document.getElementById("highScoreText");
+    const playAgainBtn = document.getElementById("playAgain");
+    const scoreDisplay = document.getElementById("score");
+
+    let birdY, birdVelocity, pipes, score, gameOver;
+    let highScore = localStorage.getItem("crossyHighScore") || 0;
+    let gameStarted = false;
+
+    const birdX = canvas.width / 6;
+    const birdSize = 15;
+    const pipeWidth = 80;
+    let pipeGap = 160;
+    const pipeSpeed = 2;
+
+    let baseGravity = 0.3;
+    let baseJump = -6;
+
+    function getGravity() {
+      return baseGravity + score * 0.005;
+    }
+
+    function getJump() {
+      return baseJump - score * 0.01;
+    }
+
+    function startGame() {
+      document.getElementById("homeScreen").style.display = "none";
+      scoreDisplay.style.display = "flex";
+      gameStarted = true;
+      resetGame();
+    }
+
+    function goHome() {
+      gameStarted = false;
+      playAgainBtn.style.display = "none";
+      scoreDisplay.style.display = "none";
+      document.getElementById("homeScreen").style.display = "block";
+    }
+
+    function openSettings() {
+      document.getElementById("homeScreen").style.display = "none";
+      document.getElementById("settingsScreen").style.display = "block";
+    }
+
+    function closeSettings() {
+      document.getElementById("settingsScreen").style.display = "none";
+      document.getElementById("homeScreen").style.display = "block";
+    }
+
+    function adjustBrightness(value) {
+      document.getElementById("brightnessValue").textContent = value;
+      canvas.style.filter = `brightness(${value / 100})`;
+    }
+
+    function resetGame() {
+      birdY = canvas.height / 2;
+      birdVelocity = 0;
+      pipes = [];
+      score = 0;
+      pipeGap = 160;
+      gameOver = false;
+      scoreText.textContent = "Score: 0";
+      highScoreText.textContent = "| High Score: " + highScore;
+      playAgainBtn.style.display = "none";
+      gameLoop();
+    }
+
+    function drawBird() {
+      ctx.fillStyle = "red";
+      ctx.beginPath();
+      ctx.arc(birdX, birdY, birdSize, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function drawPipes() {
+      ctx.fillStyle = "yellow";
+      pipes.forEach(pipe => {
+        ctx.fillRect(pipe.x, 0, pipeWidth, pipe.top);
+        ctx.fillRect(pipe.x, pipe.top + pipeGap, pipeWidth, canvas.height - pipe.top - pipeGap);
+      });
+    }
+
+    function updatePipes() {
+      if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - 300) {
+        let topHeight = Math.random() * (canvas.height - pipeGap - 100) + 50;
+        pipes.push({ x: canvas.width, top: topHeight });
+      }
+
+      pipes.forEach(pipe => pipe.x -= pipeSpeed);
+
+      if (pipes[0].x + pipeWidth < 0) {
+        pipes.shift();
+        score++;
+        scoreText.textContent = "Score: " + score;
+
+        // Shrink pipe gap every 50 points
+        if (score >= 50 && score % 50 === 0 && pipeGap > 40) {
+          pipeGap -= 10;
+        }
+      }
+    }
+
+    function checkCollision() {
+      if (birdY + birdSize > canvas.height || birdY - birdSize < 0) {
+        gameOver = true;
+      }
+
+      pipes.forEach(pipe => {
+        if (
+          birdX + birdSize > pipe.x &&
+          birdX - birdSize < pipe.x + pipeWidth &&
+          (birdY - birdSize < pipe.top || birdY + birdSize > pipe.top + pipeGap)
+        ) {
+          gameOver = true;
+        }
+      });
+    }
+
+    function gameLoop() {
+      if (!gameStarted) return;
+
+      if (gameOver) {
+        if (score > highScore) {
+          highScore = score;
+          localStorage.setItem("crossyHighScore", highScore);
+          highScoreText.textContent = "| High Score: " + highScore;
+        }
+
+        ctx.fillStyle = "rgba(0,0,0,0.5)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        playAgainBtn.style.display = "block";
+        return;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      birdVelocity += getGravity();
+      birdY += birdVelocity;
+
+      drawBird();
+      updatePipes();
+      drawPipes();
+      checkCollision();
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    canvas.addEventListener("click", () => {
+      if (gameStarted && !gameOver) birdVelocity = getJump();
+    });
+  </script>
+</body>
+</html>
