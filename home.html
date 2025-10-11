@@ -29,26 +29,28 @@
       background-color: rgba(20, 0, 40, 0.7);
       min-height: 100%;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       position: relative;
     }
 
-    .sidebar {
-      width: 100px;
-      padding: 30px 10px;
+    .topbar {
+      width: 100%;
+      padding: 20px 10px;
       display: flex;
-      flex-direction: column;
-      gap: 30px;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
       align-items: center;
+      background-color: rgba(0, 0, 50, 0.6);
     }
 
-    .sidebar a img {
+    .topbar a img {
       width: 40px;
       height: 40px;
       transition: transform 0.3s;
     }
 
-    .sidebar a:hover img {
+    .topbar a:hover img {
       transform: scale(1.2);
     }
 
@@ -74,12 +76,34 @@
       box-shadow: 0 0 15px rgba(255,0,0,0.8);
     }
 
+    .games-tab {
+      text-align: center;
+    }
+
+    .games-tab h3 {
+      color: #FFD700;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .games-tab a {
+      color: #00FF7F;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+      margin: 0 10px;
+    }
+
+    .games-tab a:hover {
+      text-decoration: underline;
+    }
+
     .main {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px 20px 30px;
+      padding: 20px;
     }
 
     .logo-space {
@@ -107,7 +131,8 @@
     }
 
     .video-box {
-      width: 560px;
+      width: 100%;
+      max-width: 560px;
       height: 315px;
       background-color: rgba(255, 255, 255, 0.1);
       border: 2px solid white;
@@ -139,9 +164,9 @@
     }
 
     .description {
-      margin-top: 80px;
+      margin-top: 40px;
       max-width: 560px;
-      width: 100%;
+      width: 90%;
       background-color: rgba(255, 255, 255, 0.1);
       border: 1px solid #ccc;
       border-radius: 10px;
@@ -152,58 +177,60 @@
     }
 
     .dancer {
-      position: absolute;
-      bottom: 20px;
-      z-index: 1;
-    }
-
-    .dancer.left {
-      left: 20px;
-    }
-
-    .dancer.right {
-      right: 20px;
+      text-align: right;
+      padding-right: 20px;
+      margin-top: 20px;
     }
 
     .dancer img {
-      height: 120px;
-    }
-
-    .games-tab {
-      margin-top: 40px;
-      text-align: center;
-    }
-
-    .games-tab h3 {
-      color: #FFD700;
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-
-    .games-tab a {
-      color: #00FF7F;
-      font-weight: bold;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .games-tab a:hover {
-      text-decoration: underline;
+      height: 100px;
     }
 
     @media (max-width: 700px) {
-      .overlay {
-        flex-direction: column;
+      a h1 {
+        font-size: 40px;
       }
-      .sidebar {
-        flex-direction: row;
-        justify-content: center;
-        width: 100%;
-        padding: 20px;
+
+      .video-box {
+        height: 200px;
       }
-      .main {
-        padding: 20px;
+
+      .section h2 {
+        font-size: 20px;
+      }
+
+      .description {
+        font-size: 16px;
+        padding: 16px;
+        width: 95%;
+      }
+
+      .dancer img {
+        height: 80px;
+      }
+
+      .live-button {
+        width: 50px;
+        height: 50px;
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      a h1 {
+        font-size: 32px;
+      }
+
+      .video-box {
+        height: 180px;
+      }
+
+      .description {
+        font-size: 15px;
+      }
+
+      .dancer img {
+        height: 60px;
       }
     }
   </style>
@@ -211,32 +238,20 @@
 <body>
   <div class="scroll-container">
     <div class="overlay">
-      <!-- Left dancing girl -->
-      <div class="dancer left">
-        <img src="https://media.tenor.com/2zjKXqkzK9sAAAAC/anime-dance.gif" alt="Dancing Girl Left">
-      </div>
-
-      <!-- Right dancing girl -->
-      <div class="dancer right">
-        <img src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif" alt="Dancing Girl Right">
-      </div>
-
-      <div class="sidebar">
+      <div class="topbar">
         <a href="https://www.youtube.com/@msggambles" target="_blank">
           <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
         </a>
         <a href="https://instagram.com/msgtaken" target="_blank">
           <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
         </a>
-        <a href="https://kick.com/messageless" target="_blank" class="live-button">📷 LIVE</a>
+        <a href="https://kick.com/messageless" target="_blank" class="live-button">📷</a>
         <a href="https://www.tiktok.com/@officialmsgs" target="_blank">
           <img src="https://cdn-icons-png.flaticon.com/512/3046/3046122.png" alt="TikTok">
         </a>
         <a href="https://www.twitch.tv/messageful" target="_blank">
           <img src="https://cdn-icons-png.flaticon.com/512/5968/5968819.png" alt="Twitch">
         </a>
-
-        <!-- Games Made by MSG -->
         <div class="games-tab">
           <h3>Games Made by MSG</h3>
           <a href="crossy-ball.html">Crossy Ball</a>
@@ -249,6 +264,7 @@
         <a href="index.html" style="text-decoration: none;">
           <h1>MSG</h1>
         </a>
+
         <div class="video-box">
           <iframe src="https://www.youtube.com/embed/PCWWalpEV9U" allowfullscreen></iframe>
         </div>
@@ -267,12 +283,17 @@
 
         <div class="description">
           <p>
-            Welcome to MSG — where music, games, and good vibes collide. This space is all about creativity, connection, and keeping it real. Whether you're here for the beats, the livestreams, or just to explore, you're part of the journey. Stay tuned for more drops,
+            Welcome to MSG — where music, games, and good vibes collide. This space is all about creativity, connection, and keeping it real. Whether you're here for the beats, the livestreams, or just to explore, you're part of the journey.
             Stay tuned for more drops, more energy, and more MSG magic. From custom games like Flappy Ball and Blackjack to live streams and music releases, this site is built to entertain, connect, and evolve. Thanks for being part of the journey — we’re just getting started.
           </p>
         </div>
-      </div>
+      </div> <!-- End of .main -->
+    </div> <!-- End of .overlay -->
+
+    <!-- Right dancing girl moved below main content -->
+    <div class="dancer right">
+      <img src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif" alt="Dancing Girl Right">
     </div>
-  </div>
+  </div> <!-- End of .scroll-container -->
 </body>
 </html>
