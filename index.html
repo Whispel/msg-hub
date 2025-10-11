@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>MSG's Rewards</title>
   <style>
     body {
@@ -70,6 +70,7 @@
       font-size: 48px;
       color: #B19CD9;
       margin-bottom: 30px;
+      text-align: center;
       text-shadow: 2px 2px 0 #4B0082;
     }
 
@@ -170,14 +171,65 @@
       .overlay {
         flex-direction: column;
       }
+
       .sidebar {
         width: 100%;
         flex-direction: row;
         justify-content: space-around;
         padding: 20px;
+        overflow-x: auto;
+        white-space: nowrap;
       }
+
+      .main {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
       .grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .square {
+        height: 100px;
+        font-size: 16px;
+        padding: 8px;
+      }
+
+      .leaderboard-link {
+        font-size: 24px;
+        margin-top: 30px;
+        text-align: center;
+      }
+
+      .modal-content {
+        padding: 20px;
+        font-size: 14px;
+      }
+
+      .modal-content p {
+        font-size: 14px;
+      }
+
+      .modal-content a {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+
+      .close-btn {
+        font-size: 24px;
+        top: 10px;
+        right: 20px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -240,7 +292,7 @@
         link: "https://rain.gg/r/msg"
       },
       5: {
-        title: "Shuffle",
+                title: "Shuffle",
         text: "Sign up to shuffle today to receive perks when we stream on the site, and get access to the leaderboard prizes",
         link: "https://shuffle.com/r/msg"
       },
@@ -260,10 +312,8 @@
     }
 
     function closeModal() {
-      document.getElementById
-      ("noteModal").style.display = "none";
+      document.getElementById("noteModal").style.display = "none";
     }
   </script>
 </body>
 </html>
-
