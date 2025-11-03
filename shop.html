@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MSG's Shop</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #2a003f;
+      color: white;
+      overflow: hidden;
+    }
+
+    .entry-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(80, 0, 120, 0.85);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      flex-direction: column;
+      text-align: center;
+      padding: 40px;
+      transition: opacity 1s ease;
+    }
+
+    .entry-screen h2 {
+      font-size: 36px;
+      color: #FFD700;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #FFD700;
+    }
+
+    .entry-screen p {
+      font-size: 16px;
+      max-width: 600px;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .enter-button {
+      padding: 14px 28px;
+      font-size: 18px;
+      font-weight: bold;
+      background-color: #B19CD9;
+      color: black;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #B19CD9;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .enter-button:hover {
+      transform: scale(1.05);
+      background-color: #DDA0DD;
+    }
+
+    .shop-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+      min-height: 100vh;
+    }
+
+    .animated-title {
+      font-size: 48px;
+      margin-bottom: 40px;
+      text-align: center;
+      color: #B19CD9;
+      text-shadow: 0 0 10px #B19CD9, 0 0 20px #8A2BE2;
+      animation: fadeInTitle 2s ease-out;
+    }
+
+    @keyframes fadeInTitle {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .shop-box {
+      background-color: rgba(128, 0, 128, 0.8);
+      border: 2px solid white;
+      border-radius: 12px;
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .shop-box:hover {
+      transform: scale(1.05);
+      background-color: rgba(160, 32, 240, 0.9);
+    }
+
+    .shop-box span {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal-content {
+      background-color: #2e004f;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      color: white;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+
+    .modal-content p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .modal-content a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #FFD700;
+      color: black;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 28px;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Entry Screen -->
+  <div class="entry-screen" id="entryScreen">
+    <h2>MSG's Rewards</h2>
+    <p>
+      To use the shop, you must accumulate points by watching our Kick channel. Points are collected over time while watching. Once you redeem an item, your balance will be recorded and subtracted for future purchases. To claim a reward, click the desired item/package and you’ll be redirected to our Discord. Open a ticket and mention the item you want to claim. One of our team members will assist you within 24 hours.
+    </p>
+    <button class="enter-button" onclick="enterShop()">ENTER</button>
+  </div>
+
+  <!-- Shop Content -->
+  <div class="shop-container" id="shopContainer">
+    <h1 class="animated-title">MSG's SHOP</h1>
+    <div class="shop-grid">
+      <!-- $50 Box -->
+      <div class="shop-box" onclick="openModal(1)">
+        <span>🤑</span>
+        $50 Package
+      </div>
+
+      <!-- $100 Box -->
+      <div class="shop-box" onclick="openModal(2)">
+        <span>💸</span>
+        $100 Package
+      </div>
+
+      <!-- Viewer Spend's Balance -->
+      <div class="shop-box" onclick="openModal(3)">
+        <span>🎥</span>
+        Viewer Spend's Balance
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="shopModal">
+    <div class="close-btn" onclick="closeModal()">×</div>
+    <div class="modal-content">
+      <h2 id="modalTitle">Package</h2>
+      <p id="modalText"></p>
+      <a href="https://discord.gg/w9UArqaYT9" target="_blank">Buy Now</a>
+    </div>
+  </div>
+
+  <script>
+    function enterShop() {
+      document.getElementById("entryScreen").style.opacity = "0";
+      setTimeout(() => {
+        document.getElementById("entryScreen").style.display = "none";
+        document.getElementById("shopContainer").style.display = "flex";
+      }, 1000);
+    }
+
+    const packages = {
+      1: {
+        title: "$50 Package",
+        text: "Purchase $50 using your Kick channel points. You will need 100,000 points to claim this package."
+      },
+      2: {
+        title: "$100 Package",
+        text: "Purchase $100 using your Kick channel points. You will need 200,000 points to claim this package."
+      },
+      3: {
+        title: "Viewer Spend's Balance",
+        text: "For a stream, spend MSG's balance in a private Discord call with him in front of all the viewers. You get to keep 100% of the profit he gets. If nothing is earned, you’ll receive $200. To purchase, you will need 500,000 points."
+      }
+    };
+
+    function openModal(id) {
+      const data = packages[id];
+      document.getElementById("shopModal").style.display = "flex";
+      document.getElementById("modalTitle").innerText = data.title;
+      document.getElementById("modalText").innerText = data.text;
+    }
+
+    function closeModal() {
+      document.getElementById("shopModal").style.display = "none";
+    }
+  </script>
+</body>
+</html>
