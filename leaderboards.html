@@ -44,6 +44,18 @@
       transform: scale(1.05);
     }
 
+    .status-label {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 16px;
+      color: #FFD700;
+      font-weight: bold;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 6px 12px;
+      border-radius: 8px;
+    }
+
     .timer {
       font-size: 24px;
       margin-bottom: 10px;
@@ -88,74 +100,45 @@
       background-color: rgba(255, 255, 255, 0.1);
       border: 2px solid white;
       border-radius: 10px;
-      padding: 20px;
-    }
-
-    .leaderboard ul {
-      list-style: none;
       padding: 0;
-    }
-
-    .leaderboard li {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      padding: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      font-size: 18px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(255,255,255,0.2);
     }
 
     .leaderboard img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-    }
-
-    .rank {
-      font-weight: bold;
-      width: 30px;
-      text-align: right;
-    }
-
-    .coins {
-      margin-left: auto;
-      font-weight: bold;
-      color: #FFD700;
+      width: 100%;
+      display: block;
     }
 
     @media (max-width: 600px) {
       h1 {
         font-size: 36px;
       }
-      .leaderboard li {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .coins {
-        margin-left: 0;
-      }
     }
   </style>
 </head>
 <body>
   <a href="index.html" class="home-button">Home</a>
+  <div class="status-label">Current Active Leaderboards: None</div>
   <div class="overlay">
     <div class="timer" id="countdown">Loading timer...</div>
-    <h1>Leaderboard's</h1>
+    <h1>Leaderboards</h1>
     <div class="link-bar">
-      <a href="skinrave.html">Skinrave</a>
-      <a href="chicken.html">Chicken</a>
-      <a href="rain.html">Rain</a>
       <a href="clash.html">Clash</a>
-      <a href="shock.html">Shock</a> <!-- ✅ New tab added -->
+      <a href="chicken.html">Chicken</a>
+      <a href="skinrave.html">Skinrave</a>
+      <a href="shock.html">Shock</a>
+      <a href="rain.html">Rain</a>
+      <a href="csgobig.html">CSGOBIG</a>
     </div>
+
     <div class="leaderboard">
-      <ul id="leaderboardList"></ul>
+      <img src="https://www.livecasinoman.com/wp-content/uploads/2022/10/LCM-Dark-Banner-4000x2667px-1180x787.jpg" alt="Money Rain Banner">
     </div>
   </div>
 
   <script>
-    let startDate = new Date("2025-10-10T00:00:00Z");
+    let startDate = new Date("2025-11-02T00:00:00Z");
     const oneMonthMs = 30 * 24 * 60 * 60 * 1000;
 
     function updateCountdown() {
@@ -178,39 +161,6 @@
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
-
-    async function loadLeaderboard() {
-      const url = "https://api.skinrave.gg/affiliates/public/applicants?token=f519c108-c4b9-4ea7-9a54-da7017c315bd&skip=0&take=10&order=DESC&from=2025-10-03T01:30:14.236Z&to=2025-10-10T01:30:14.236Z";
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-        const list = data.list;
-        const leaderboard = document.getElementById("leaderboardList");
-        leaderboard.innerHTML = "";
-
-        list.forEach((entry, index) => {
-          const user = entry.user;
-          let coins = 0;
-          if (index === 0) coins = 500;
-          else if (index === 1) coins = 300;
-          else if (index === 2) coins = 200;
-
-          const li = document.createElement("li");
-          li.innerHTML = `
-            <span class="rank">${index + 1}</span>
-            <img src="${user.avatarUrl}" alt="Avatar">
-            <span>${user.username}</span>
-            <span>Earned: $${parseFloat(entry.earned).toFixed(2)}</span>
-            <span class="coins">${coins} 🪙</span>
-          `;
-          leaderboard.appendChild(li);
-        });
-      } catch (error) {
-        console.error("Failed to load leaderboard:", error);
-      }
-    }
-
-    loadLeaderboard();
   </script>
 </body>
 </html>
