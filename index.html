@@ -12,14 +12,54 @@
       background-size: cover;
       background-position: center;
       color: white;
+      overflow: hidden;
+    }
+
+    .entry-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(80, 0, 120, 0.85);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      flex-direction: column;
+      transition: opacity 1s ease;
+    }
+
+    .entry-screen h2 {
+      font-size: 48px;
+      color: #FFD700;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px #FFD700;
+    }
+
+    .enter-button {
+      padding: 14px 28px;
+      font-size: 20px;
+      font-weight: bold;
+      background-color: #B19CD9;
+      color: black;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #B19CD9;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .enter-button:hover {
+      transform: scale(1.05);
+      background-color: #DDA0DD;
     }
 
     .overlay {
+      display: none;
       background-color: rgba(20, 0, 40, 0.7);
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      display: flex;
       flex-direction: row;
     }
 
@@ -66,12 +106,32 @@
       align-items: center;
     }
 
-    h1 {
+    .animated-welcome {
       font-size: 48px;
       color: #B19CD9;
       margin-bottom: 30px;
       text-align: center;
-      text-shadow: 2px 2px 0 #4B0082;
+      text-shadow: 0 0 10px #B19CD9, 0 0 20px #8A2BE2, 0 0 30px #4B0082;
+      animation: fadeSlideIn 1.2s ease-out, pulseGlow 2.5s infinite alternate;
+      opacity: 0;
+      transform: translateY(20px);
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes fadeSlideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        text-shadow: 0 0 10px #B19CD9, 0 0 20px #8A2BE2, 0 0 30px #4B0082;
+      }
+      100% {
+        text-shadow: 0 0 20px #DDA0DD, 0 0 30px #BA55D3, 0 0 40px #9932CC;
+      }
     }
 
     .grid {
@@ -167,88 +227,18 @@
       cursor: pointer;
     }
 
-    @media (max-width: 700px) {
-      .overlay {
-        flex-direction: column;
-        position: relative;
-      }
-
-      .sidebar {
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-around;
-        padding: 10px;
-        overflow-x: auto;
-        white-space: nowrap;
-        font-size: 14px;
-      }
-
-      .main {
-        padding: 20px;
-      }
-
-      h1 {
-        font-size: 28px;
-        margin-bottom: 20px;
-      }
-
-      .grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 15px;
-      }
-
-      .square {
-        height: 80px;
-        font-size: 14px;
-        padding: 6px;
-      }
-
-      .leaderboard-link {
-        font-size: 20px;
-        margin-top: 20px;
-        text-align: center;
-      }
-
-      .modal-content {
-        padding: 16px;
-        font-size: 14px;
-        width: 90%;
-      }
-
-      .modal-content p {
-        font-size: 14px;
-      }
-
-      .modal-content a {
-        padding: 8px 16px;
-        font-size: 14px;
-      }
-
-      .close-btn {
-        font-size: 22px;
-        top: 10px;
-        right: 20px;
-      }
-    }
-
-    @media (max-width: 400px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .square {
-        height: 70px;
-        font-size: 13px;
-      }
-
-      h1 {
-        font-size: 24px;
-      }
+    #player {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="overlay">
+  <div class="entry-screen" id="entryScreen">
+    <h2>MSG's Rewards</h2>
+    <button class="enter-button" onclick="enterSite()">ENTER</button>
+  </div>
+
+  <div class="overlay" id="mainOverlay">
     <div class="sidebar">
       <a href="index.html" class="title-link">MSG's Rewards</a>
       <a href="home.html">🏠 Home</a>
@@ -258,7 +248,7 @@
     </div>
 
     <div class="main">
-      <h1>Welcome</h1>
+      <h1 class="animated-welcome">Welcome</h1>
       <div class="grid">
         <div class="square" onclick="openModal(1)">Skinrave</div>
         <div class="square" onclick="openModal(2)">Chicken</div>
@@ -266,11 +256,15 @@
         <div class="square" onclick="openModal(4)">Rain</div>
         <div class="square" onclick="openModal(5)">Shuffle</div>
         <div class="square" onclick="openModal(6)">Shock</div>
+                <div class="square" onclick="openModal(7)">CSGOBIG</div>
       </div>
 
       <a href="leaderboards.html" class="leaderboard-link">Leaderboard Reward's</a>
     </div>
   </div>
+
+  <!-- YouTube Player API container -->
+  <div id="player"></div>
 
   <!-- Modal -->
   <div class="modal" id="noteModal">
@@ -282,7 +276,40 @@
     </div>
   </div>
 
+  <!-- Load YouTube Player API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
+    let player;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '0',
+        width: '0',
+        videoId: 'mbbq2gnOcQo',
+        playerVars: {
+          autoplay: 0,
+          loop: 1,
+          playlist: 'mbbq2gnOcQo'
+        },
+        events: {
+          onReady: () => {
+            // Player is ready, but we wait for user interaction
+          }
+        }
+      });
+    }
+
+    function enterSite() {
+      document.getElementById("entryScreen").style.opacity = "0";
+      setTimeout(() => {
+        document.getElementById("entryScreen").style.display = "none";
+        document.getElementById("mainOverlay").style.display = "flex";
+        if (player && typeof player.playVideo === "function") {
+          player.playVideo();
+        }
+      }, 1000);
+    }
+
     const messages = {
       1: {
         title: "Skinrave",
@@ -313,6 +340,11 @@
         title: "Shock",
         text: "Sign up to shock today to receive perks when we stream on the site, and get access to the leaderboard prizes",
         link: "https://shock.com/?r=MESSAGE"
+      },
+      7: {
+        title: "CSGOBIG",
+        text: "Sign up to CSGOBIG today to receive perks when we stream on the site, and get access to the leaderboard prizes",
+        link: "https://csgobig.com/r/msg"
       }
     };
 
