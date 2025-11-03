@@ -13,6 +13,56 @@
       overflow: hidden;
     }
 
+    /* Entry Screen */
+    #entry-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #2e0854;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 1s ease;
+    }
+
+    #entry-screen h1 {
+      font-size: 64px;
+      color: #c084fc;
+      text-shadow: 0 0 20px #c084fc;
+      animation: glow 2s infinite alternate;
+      margin-bottom: 30px;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #c084fc; }
+      to { text-shadow: 0 0 30px #c084fc; }
+    }
+
+    #enter-btn {
+      padding: 12px 24px;
+      font-size: 20px;
+      background-color: #c084fc;
+      color: black;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 0 10px #c084fc88;
+      transition: transform 0.3s;
+    }
+
+    #enter-btn:hover {
+      transform: scale(1.05);
+    }
+
+    #bg-music {
+      display: none;
+    }
+
     body {
       background-image: url('https://images.unsplash.com/photo-1532298229144-0ec0c57515c7');
       background-size: cover;
@@ -114,14 +164,14 @@
     a h1 {
       font-size: 60px;
       margin-bottom: 15px;
-      color: #a020f0;
+      color: #c084fc;
       font-family: 'Trebuchet MS', sans-serif;
       letter-spacing: 3px;
       text-shadow:
-        1px 1px 0 #6a0dad,
-        2px 2px 0 #4b0082,
-        3px 3px 0 #2e0854,
-        4px 4px 0 #1a0033;
+        1px 1px 0 #a855f7,
+        2px 2px 0 #9333ea,
+        3px 3px 0 #7e22ce,
+        4px 4px 0 #6b21a8;
       text-decoration: none;
       cursor: pointer;
     }
@@ -187,75 +237,42 @@
     }
 
     @media (max-width: 700px) {
-      a h1 {
-        font-size: 40px;
-      }
-
-      .video-box {
-        height: 200px;
-      }
-
-      .section h2 {
-        font-size: 20px;
-      }
-
-      .description {
-        font-size: 16px;
-        padding: 16px;
-        width: 95%;
-      }
-
-      .dancer img {
-        height: 80px;
-      }
-
-      .live-button {
-        width: 50px;
-        height: 50px;
-        font-size: 16px;
-      }
+      a h1 { font-size: 40px; }
+      .video-box { height: 200px; }
+      .section h2 { font-size: 20px; }
+      .description { font-size: 16px; padding: 16px; width: 95%; }
+      .dancer img { height: 80px; }
+      .live-button { width: 50px; height: 50px; font-size: 16px; }
     }
 
     @media (max-width: 400px) {
-      a h1 {
-        font-size: 32px;
-      }
-
-      .video-box {
-        height: 180px;
-      }
-
-      .description {
-        font-size: 15px;
-      }
-
-      .dancer img {
-        height: 60px;
-      }
+      a h1 { font-size: 32px; }
+      .video-box { height: 180px; }
+      .description { font-size: 15px; }
+      .dancer img { height: 60px; }
     }
   </style>
 </head>
 <body>
+  <div id="entry-screen">
+    <h1>MSG's PAGE</h1>
+    <button id="enter-btn">Enter</button>
+  </div>
+
+  <iframe id="bg-music" width="0" height="0" src="" frameborder="0" allow="autoplay"></iframe>
+
   <div class="scroll-container">
     <div class="overlay">
       <div class="topbar">
-        <a href="https://www.youtube.com/@msggambles" target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
-        </a>
-        <a href="https://instagram.com/msgtaken" target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
-        </a>
+        <a href="https://www.youtube.com/@msggambles" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
+        <a href="https://instagram.com/msgtaken" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram"></a>
         <a href="https://kick.com/messageless" target="_blank" class="live-button">📷</a>
-        <a href="https://www.tiktok.com/@officialmsgs" target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/3046/3046122.png" alt="TikTok">
-        </a>
-        <a href="https://www.twitch.tv/messageful" target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/5968/5968819.png" alt="Twitch">
-        </a>
+        <a href="https://www.tiktok.com/@officialmsgs" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046122.png" alt="TikTok"></a>
+        <a href="https://www.twitch.tv/messageful" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968819.png" alt="Twitch"></a>
         <div class="games-tab">
           <h3>Games Made by MSG</h3>
           <a href="crossy-ball.html">Crossy Ball</a>
-          <a href="blackjack.html">Blackjack</a>
+                    <a href="blackjack.html">Blackjack</a>
         </div>
       </div>
 
@@ -290,10 +307,19 @@
       </div> <!-- End of .main -->
     </div> <!-- End of .overlay -->
 
-    <!-- Right dancing girl moved below main content -->
     <div class="dancer right">
       <img src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif" alt="Dancing Girl Right">
     </div>
   </div> <!-- End of .scroll-container -->
+
+  <script>
+    document.getElementById('enter-btn').addEventListener('click', () => {
+      document.getElementById('entry-screen').style.opacity = '0';
+      setTimeout(() => {
+        document.getElementById('entry-screen').style.display = 'none';
+      }, 1000);
+      document.getElementById('bg-music').src = "https://www.youtube.com/embed/mbbq2gnOcQo?autoplay=1&loop=1&playlist=mbbq2gnOcQo";
+    });
+  </script>
 </body>
 </html>
