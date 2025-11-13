@@ -13,7 +13,6 @@
       overflow: hidden;
     }
 
-    /* Entry Screen */
     #entry-screen {
       position: fixed;
       top: 0;
@@ -273,34 +272,44 @@
         <div class="section">
           <h2>My Music:</h2>
           <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-                      src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/m-s_g/funny&color=%23ff00ff&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
-          </iframe>
-        </div>
-        
-        <div class="description">
-          <p>
-            Welcome to MSG — where music, games, and good vibes collide. This space is all about creativity, connection, and keeping it real. Whether you're here for the beats, the livestreams, or just to explore, you're part of the journey.
-            Stay tuned for more drops, more energy, and more MSG magic. From custom games like Flappy Ball and Blackjack to live streams and music releases, this site is built to entertain, connect, and evolve. Thanks for being part of the journey — we’re just getting started.
-          </p>
-        </div>
-      </div> <!-- End of .main -->
-    </div> <!-- End of .overlay -->
+            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/m-s_g/funny&color=%23ff00ff&auto_play=false&hide_related=false&show_user=true&show_reposts=false&show_teaser=true">
+        </iframe>
+      </div>
 
-    <div class="dancer right">
-      <img src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif" alt="Dancing Girl Right">
-    </div>
-  </div> <!-- End of .scroll-container -->
+      <div class="section tiktok-section">
+        <h2>TikTok:</h2>
+        <iframe src="https://www.tiktok.com/embed/v2/7289476024063278338" width="100%" height="600" frameborder="0" allowfullscreen></iframe>
+      </div>
 
-  <script>
-    document.getElementById('enter-btn').addEventListener('click', () => {
+      <div class="section">
+        <h2>Music Video:</h2>
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/2L1eLsrG_bA" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <div class="description">
+        <p>
+          Welcome to MSG — where music, games, and good vibes collide. This space is all about creativity, connection, and keeping it real. Whether you're here for the beats, the livestreams, or just to explore, you're part of the journey.
+          Stay tuned for more drops, more energy, and more MSG magic. From custom games like Flappy Ball and Blackjack to live streams and music releases, this site is built to entertain, connect, and evolve. Thanks for being part of the journey — we’re just getting started.
+        </p>
+      </div>
+    </div> <!-- End of .main -->
+  </div> <!-- End of .overlay -->
+
+  <div class="dancer right">
+    <img src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif" alt="Dancing Girl Right">
+  </div>
+</div> <!-- End of .scroll-container -->
+
+<script>
+  document.getElementById('enter-btn').addEventListener('click', () => {
     document.getElementById('entry-screen').style.opacity = '0';
     setTimeout(() => {
       document.getElementById('entry-screen').style.display = 'none';
     }, 1000);
     document.getElementById('bg-music').src = "https://www.youtube.com/embed/yLvtH4MHKnY?autoplay=1&loop=1&playlist=yLvtH4MHKnY";
-    });
-  </script>
+  });
+</script>
 </body>
 </html>
-
-
