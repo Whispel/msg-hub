@@ -8,7 +8,7 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #0d001a;
+      background-color: #1a0a00;
       color: white;
       overflow-x: hidden;
     }
@@ -19,20 +19,6 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       z-index: 0;
-    }
-
-    .floating-gif {
-      position: absolute;
-      width: 120px;
-      animation: float 20s infinite linear;
-      opacity: 0.3;
-      z-index: 1;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-100px) rotate(180deg); }
-      100% { transform: translateY(0) rotate(360deg); }
     }
 
     .back-button {
@@ -62,14 +48,20 @@
       text-align: center;
     }
 
+    #countdown {
+      font-size: 20px;
+      color: #FFD700;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
     .title {
       font-size: 64px;
-      color: #FFD700;
+      color: #ffcc00;
       text-shadow:
-        2px 2px 0 #6a0dad,
-        4px 4px 0 #4b0082,
-        6px 6px 0 #2e0854,
-        8px 8px 0 #0d001a;
+        2px 2px 0 #e6b800,
+        4px 4px 0 #cc9900,
+        6px 6px 0 #996600;
       margin-bottom: 40px;
     }
 
@@ -152,58 +144,77 @@
     footer {
       margin-top: 60px;
       font-size: 14px;
-      color: #FFD700;
+      color: #ffcc00;
     }
   </style>
 </head>
 <body>
   <div class="overlay"></div>
 
-  <!-- Back Button -->
   <a href="leaderboards.html" class="back-button">&larr;</a>
 
-  <!-- Floating GIFs -->
-  <img src="https://media.tenor.com/awp1.gif" class="floating-gif" style="top: 10%; left: 5%;">
-  <img src="https://media.tenor.com/awp2.gif" class="floating-gif" style="top: 30%; right: 10%;">
-  <img src="https://media.tenor.com/awp3.gif" class="floating-gif" style="bottom: 20%; left: 15%;">
-
   <div class="container">
+    <div id="countdown"></div>
+
     <h1 class="title">CSGold Leaderboard</h1>
 
     <div class="top-three">
       <div class="winner-box trophy">
-        <h2>1st - Player1</h2>
-        <div class="wagered">Wagered: $0.00</div>
-        <div class="coins">125 Coins 🪙</div>
+        <h2>1st - GoldKing</h2>
+        <div class="wagered">Wagered: $11,000.00</div>
+        <div class="coins">200 Coins 🪙</div>
       </div>
       <div class="winner-box confetti">
-        <h2>2nd - Player2</h2>
-        <div class="wagered">Wagered: $0.00</div>
+        <h2>2nd - GoldQueen</h2>
+        <div class="wagered">Wagered: $8,300.00</div>
+        <div class="coins">100 Coins 🪙</div>
+      </div>
+      <div class="winner-box confetti">
+        <h2>3rd - GoldHero</h2>
+        <div class="wagered">Wagered: $6,000.00</div>
         <div class="coins">50 Coins 🪙</div>
-      </div>
-      <div class="winner-box confetti">
-        <h2>3rd - Player3</h2>
-        <div class="wagered">Wagered: $0.00</div>
-        <div class="coins">35 Coins 🪙</div>
       </div>
     </div>
 
     <div class="rest-box">
-      <div class="entry"><span>4th - Player4</span><span>Wagered: $0.00</span><span class="coins">25 Coins 🪙</span></div>
-      <div class="entry"><span>5th - Player5</span><span>Wagered: $0.00</span><span class="coins">15 Coins 🪙</span></div>
-      <div class="entry"><span>6th - Player6</span><span>Wagered: $0.00</span><span class="coins">-</span></div>
-      <div class="entry"><span>7th - Player7</span><span>Wagered: $0.00</span><span class="coins">-</span></div>
-      <div class="entry"><span>8th - Player8</span><span>Wagered: $0.00</span><span class="coins">-</span></div>
-      <div class="entry"><span>9th - Player9</span><span>Wagered: $0.00</span><span class="coins">-</span></div>
-      <div class="entry"><span>10th - Player10</span><span>Wagered: $0.00</span><span class="coins">-</span></div>
+      <div class="entry"><span>4th - GoldMaster</span><span>Wagered: $4,200.00</span><span class="coins">40 Coins 🪙</span></div>
+      <div class="entry"><span>5th - GoldFan</span><span>Wagered: $3,000.00</span><span class="coins">10 Coins 🪙</span></div>
+      <div class="entry"><span>6th - GoldBot</span><span>Wagered: $2,200.00</span><span class="coins">-</span></div>
+      <div class="entry"><span>7th - GoldGhost</span><span>Wagered: $1,600.00</span><span class="coins">-</span></div>
+      <div class="entry"><span>8th - GoldLegend</span><span>Wagered: $1,200.00</span><span class="coins">-</span></div>
+      <div class="entry"><span>9th - GoldNoob</span><span>Wagered: $900.00</span><span class="coins">-</span></div>
+      <div class="entry"><span>10th - GoldDream</span><span>Wagered: $650.00</span><span class="coins">-</span></div>
     </div>
 
     <footer>
       &copy; 2025 MSG Gaming. All rights reserved.
     </footer>
   </div>
+
+  <script>
+    let startDate = new Date("2025-11-02T00:00:00Z");
+    const resetIntervalMs = 14 * 24 * 60 * 60 * 1000;
+
+    function updateCountdown() {
+      const now = new Date();
+      let nextReset = new Date(startDate.getTime());
+
+      while (nextReset < now) {
+        nextReset = new Date(nextReset.getTime() + resetIntervalMs);
+      }
+
+      const diff = nextReset - now;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("countdown").textContent =
+        `Next reset in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
 </body>
-
 </html>
-
-
