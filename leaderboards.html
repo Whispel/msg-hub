@@ -14,14 +14,26 @@
       background-attachment: fixed;
       color: white;
       overflow-x: hidden;
+      animation: fadeIn 1.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .overlay {
-      background-color: rgba(0, 0, 0, 0.5);
+      background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       z-index: 0;
+      animation: pulseOverlay 10s infinite alternate;
+    }
+
+    @keyframes pulseOverlay {
+      0% { background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3)); }
+      100% { background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)); }
     }
 
     .container {
@@ -29,6 +41,7 @@
       z-index: 2;
       padding: 60px 20px;
       text-align: center;
+      animation: fadeIn 2s ease-in;
     }
 
     .back-button {
@@ -58,6 +71,12 @@
         2px 2px 0 #00cccc,
         4px 4px 0 #0099cc;
       margin-bottom: 30px;
+      animation: slideDown 1s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     .nav-grid {
@@ -65,6 +84,7 @@
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 16px;
       margin-bottom: 40px;
+      animation: fadeIn 2s ease-in;
     }
 
     .nav-grid a {
@@ -77,6 +97,7 @@
       color: #FFD700;
       text-decoration: none;
       transition: background-color 0.3s, transform 0.3s;
+      animation: pulse 2s infinite;
     }
 
     .nav-grid a:hover {
@@ -84,12 +105,19 @@
       transform: scale(1.05);
     }
 
+    @keyframes pulse {
+      0% { box-shadow: 0 0 5px rgba(255,255,255,0.2); }
+      50% { box-shadow: 0 0 15px rgba(255,255,255,0.4); }
+      100% { box-shadow: 0 0 5px rgba(255,255,255,0.2); }
+    }
+
     .video-box {
       margin: 40px auto 20px;
       max-width: 800px;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+      box-shadow: 0 0 30px rgba(0,255,255,0.5);
+      animation: fadeIn 2s ease-in;
     }
 
     iframe {
@@ -107,6 +135,7 @@
       border-radius: 12px;
       color: #FFD700;
       line-height: 1.6;
+      animation: fadeIn 2s ease-in;
     }
 
     .description a {
