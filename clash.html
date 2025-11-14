@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Chicken Leaderboard</title>
+  <title>Clash Leaderboard</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #1a0033;
+      background-color: #0b0020;
       color: white;
       overflow-x: hidden;
     }
@@ -19,20 +19,6 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       z-index: 0;
-    }
-
-    .floating-gif {
-      position: absolute;
-      width: 120px;
-      animation: float 20s infinite linear;
-      opacity: 0.4;
-      z-index: 1;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-100px) rotate(180deg); }
-      100% { transform: translateY(0) rotate(360deg); }
     }
 
     .back-button {
@@ -62,22 +48,21 @@
       text-align: center;
     }
 
-    .title {
-      font-size: 64px;
-      color: #a020f0;
-      text-shadow:
-        2px 2px 0 #6a0dad,
-        4px 4px 0 #4b0082,
-        6px 6px 0 #2e0854,
-        8px 8px 0 #1a0033;
-      margin-bottom: 40px;
-    }
-
     #countdown {
       font-size: 20px;
       color: #FFD700;
       margin-bottom: 20px;
       font-weight: bold;
+    }
+
+    .title {
+      font-size: 64px;
+      color: #ff66cc;
+      text-shadow:
+        2px 2px 0 #cc3399,
+        4px 4px 0 #990066,
+        6px 6px 0 #660033;
+      margin-bottom: 40px;
     }
 
     .top-three {
@@ -159,7 +144,7 @@
     footer {
       margin-top: 60px;
       font-size: 14px;
-      color: #a020f0;
+      color: #ff66cc;
     }
   </style>
 </head>
@@ -168,41 +153,37 @@
 
   <a href="leaderboards.html" class="back-button">&larr;</a>
 
-  <img src="https://media.tenor.com/awp1.gif" class="floating-gif" style="top: 10%; left: 5%;">
-  <img src="https://media.tenor.com/awp2.gif" class="floating-gif" style="top: 30%; right: 10%;">
-  <img src="https://media.tenor.com/awp3.gif" class="floating-gif" style="bottom: 20%; left: 15%;">
-
   <div class="container">
     <div id="countdown"></div>
 
-    <h1 class="title">Chicken Leaderboard</h1>
+    <h1 class="title">Clash Leaderboard</h1>
 
     <div class="top-three">
       <div class="winner-box trophy">
-        <h2>1st - PlayerOne</h2>
-        <div class="wagered">Wagered: $8,400.00</div>
+        <h2>1st - ClashKing</h2>
+        <div class="wagered">Wagered: $9,200.00</div>
         <div class="coins">200 Coins 🪙</div>
       </div>
       <div class="winner-box confetti">
-        <h2>2nd - PlayerTwo</h2>
-        <div class="wagered">Wagered: $6,200.00</div>
+        <h2>2nd - ClashQueen</h2>
+        <div class="wagered">Wagered: $7,000.00</div>
         <div class="coins">100 Coins 🪙</div>
       </div>
       <div class="winner-box confetti">
-        <h2>3rd - PlayerThree</h2>
-        <div class="wagered">Wagered: $4,800.00</div>
+        <h2>3rd - ClashHero</h2>
+        <div class="wagered">Wagered: $5,500.00</div>
         <div class="coins">50 Coins 🪙</div>
       </div>
     </div>
 
     <div class="rest-box">
-      <div class="entry"><span>4th - PlayerFour</span><span>Wagered: $3,300.00</span><span class="coins">40 Coins 🪙</span></div>
-      <div class="entry"><span>5th - PlayerFive</span><span>Wagered: $2,500.00</span><span class="coins">10 Coins 🪙</span></div>
-      <div class="entry"><span>6th - PlayerSix</span><span>Wagered: $1,900.00</span><span class="coins">-</span></div>
-      <div class="entry"><span>7th - PlayerSeven</span><span>Wagered: $1,500.00</span><span class="coins">-</span></div>
-      <div class="entry"><span>8th - PlayerEight</span><span>Wagered: $1,100.00</span><span class="coins">-</span></div>
-      <div class="entry"><span>9th - PlayerNine</span><span>Wagered: $850.00</span><span class="coins">-</span></div>
-      <div class="entry"><span>10th - PlayerTen</span><span>Wagered: $600.00</span><span class="coins">-</span></div>
+      <div class="entry"><span>4th - ClashMaster</span><span>Wagered: $3,800.00</span><span class="coins">40 Coins 🪙</span></div>
+      <div class="entry"><span>5th - ClashRookie</span><span>Wagered: $2,900.00</span><span class="coins">10 Coins 🪙</span></div>
+      <div class="entry"><span>6th - ClashFan</span><span>Wagered: $2,000.00</span><span class="coins">-</span></div>
+      <div class="entry"><span>7th - ClashBot</span><span>Wagered: $1,500.00</span><span class="coins">-</span></div>
+      <div class="entry"><span>8th - ClashGhost</span><span>Wagered: $1,100.00</span><span class="coins">-</span></div>
+      <div class="entry"><span>9th - ClashLegend</span><span>Wagered: $850.00</span><span class="coins">-</span></div>
+      <div class="entry"><span>10th - ClashNoob</span><span>Wagered: $600.00</span><span class="coins">-</span></div>
     </div>
 
     <footer>
@@ -212,7 +193,7 @@
 
   <script>
     let startDate = new Date("2025-11-02T00:00:00Z");
-    const resetIntervalMs = 27 * 24 * 60 * 60 * 1000;
+    const resetIntervalMs = 40 * 24 * 60 * 60 * 1000;
 
     function updateCountdown() {
       const now = new Date();
@@ -237,5 +218,3 @@
   </script>
 </body>
 </html>
-
-
