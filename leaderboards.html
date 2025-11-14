@@ -3,29 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Leaderboards</title>
+  <title>MSG Leaderboards</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-image: url('https://images.unsplash.com/photo-1532298229144-0ec0c57515c7');
+      background-image: url('https://cdn.wallpapersafari.com/94/0/1zXkFf.jpg');
       background-size: cover;
       background-position: center;
+      background-attachment: fixed;
       color: white;
+      overflow-x: hidden;
     }
 
     .overlay {
-      background-color: rgba(20, 0, 40, 0.8);
-      position: absolute;
+      background-color: rgba(0, 0, 0, 0.5);
+      position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
+      z-index: 0;
     }
 
-    .home-button {
+    .container {
+      position: relative;
+      z-index: 2;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .back-button {
       position: absolute;
       top: 20px;
       left: 20px;
@@ -35,135 +41,118 @@
       padding: 8px 16px;
       border-radius: 8px;
       font-weight: bold;
+      font-size: 16px;
       transition: background-color 0.3s, transform 0.3s;
       z-index: 10;
     }
 
-    .home-button:hover {
+    .back-button:hover {
       background-color: rgba(255, 255, 255, 0.3);
       transform: scale(1.05);
-    }
-
-    .status-label {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 16px;
-      color: #FFD700;
-      font-weight: bold;
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 6px 12px;
-      border-radius: 8px;
-    }
-
-    .timer {
-      font-size: 24px;
-      margin-bottom: 10px;
-      color: #FFD700;
-      font-weight: bold;
-      text-shadow: 1px 1px 0 #333;
     }
 
     h1 {
-      font-size: 48px;
-      color: #00FF7F;
-      text-shadow: 2px 2px 0 #006400, 4px 4px 0 #003300;
-      margin-bottom: 20px;
+      font-size: 56px;
+      color: #00ffff;
+      text-shadow:
+        2px 2px 0 #00cccc,
+        4px 4px 0 #0099cc;
+      margin-bottom: 30px;
     }
 
-    .link-bar {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
     }
 
-    .link-bar a {
-      text-decoration: none;
-      color: #FFD700;
+    .nav-grid a {
+      display: block;
       background-color: rgba(255, 255, 255, 0.1);
-      padding: 8px 16px;
-      border-radius: 8px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 16px;
       font-weight: bold;
+      color: #FFD700;
+      text-decoration: none;
       transition: background-color 0.3s, transform 0.3s;
     }
 
-    .link-bar a:hover {
+    .nav-grid a:hover {
       background-color: rgba(255, 255, 255, 0.3);
       transform: scale(1.05);
     }
 
-    .leaderboard {
-      width: 90%;
-      max-width: 700px;
-      background-color: rgba(255, 255, 255, 0.1);
-      border: 2px solid white;
-      border-radius: 10px;
-      padding: 0;
+    .video-box {
+      margin: 40px auto 20px;
+      max-width: 800px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 0 20px rgba(255,255,255,0.2);
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
     }
 
-    .leaderboard img {
+    iframe {
       width: 100%;
-      display: block;
+      height: 450px;
+      border: none;
     }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 36px;
-      }
+    .description {
+      max-width: 800px;
+      margin: 20px auto;
+      font-size: 18px;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 12px;
+      color: #FFD700;
+      line-height: 1.6;
+    }
+
+    .description a {
+      color: #00ffff;
+      text-decoration: underline;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 14px;
+      color: #FFD700;
     }
   </style>
 </head>
 <body>
-  <a href="index.html" class="home-button">Home</a>
-  <div class="status-label">Active leaderboard's: Chicken, Shock & CSGold</div>
-  <div class="overlay">
-    <div class="timer" id="countdown">Loading timer...</div>
-    <h1>Leaderboards</h1>
-    <div class="link-bar">
-      <a href="clash.html">Clash</a>
+  <div class="overlay"></div>
+
+  <a href="index.html" class="back-button">&larr; Back</a>
+
+  <div class="container">
+    <h1>MSG Leaderboards</h1>
+
+    <div class="nav-grid">
       <a href="chicken.html">Chicken</a>
-      <a href="skinrave.html">Skinrave</a>
-      <a href="shock.html">Shock</a>
-      <a href="rain.html">Rain</a>
+      <a href="clash.html">Clash</a>
       <a href="csgobig.html">CSGOBIG</a>
       <a href="csgold.html">CSGold</a>
+      <a href="shock.html">Shock</a>
+      <a href="rain.html">Rain</a>
+      <a href="skinrave.html">SkinRave</a>
+      <a href="csgowin.html">CSGOWIN</a>
     </div>
 
-    <div class="leaderboard">
-      <img src="https://www.livecasinoman.com/wp-content/uploads/2022/10/LCM-Dark-Banner-4000x2667px-1180x787.jpg" alt="Money Rain Banner">
+    <div class="video-box">
+      <iframe src="https://www.youtube.com/embed/PCWWalpEV9U" allowfullscreen></iframe>
     </div>
+
+    <div class="description">
+      MSG's Leaderboards — hop on to snatch the prize!  
+      We offer tons of rewards, giveaways, and surprises across all our games.  
+      Need support? <a href="https://discord.gg/w9UArqaYT9" target="_blank">Join our Discord</a> and create a ticket to get help instantly.
+    </div>
+
+    <footer>
+      &copy; 2025 MSG Gaming. All rights reserved.
+    </footer>
   </div>
-
-  <script>
-    let startDate = new Date("2025-11-02T00:00:00Z");
-    const resetIntervalMs = (17 * 24 + 60) * 60 * 60 * 1000; // 15 days + 13 hours
-
-    function updateCountdown() {
-      const now = new Date();
-      let nextReset = new Date(startDate.getTime());
-
-      while (nextReset < now) {
-        nextReset = new Date(nextReset.getTime() + resetIntervalMs);
-      }
-
-      const diff = nextReset - now;
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-
-      document.getElementById("countdown").textContent =
-        `Next reset in ${days}d ${hours}h ${minutes}m ${seconds}s`;
-    }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-  </script>
 </body>
-</html>🪙
-
-
+</html>
